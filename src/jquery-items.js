@@ -108,6 +108,7 @@
 	$.fn.itemscope		=	function() 
 						    {
 								var query		= this;
+								
 								return query.attr(definition.itemscope)!== undefined;
 							};
 }($));
