@@ -9,15 +9,47 @@
 <div id="qunit"></div>
 <div id="qunit-fixture">
 <span class="users">
-	<span class="user" data-itemscope="">
+	<span class="user" data-itemscope="" data-itemid="1">
 			<span class="first-name" data-itemprop="firstName">John</span>
 			<span class="last-name" data-itemprop="lastName">Smith</span>
 			<span class="user-name" data-itemprop="userName">john.smith</span>
+			<span class="address" data-itemscope=""  data-itemprop="address">
+				<span data-itemprop="address1">28 Mary Ann St</span>
+				<span data-itemprop="city">Newnan</span>
+				<span data-itemprop="state">GA</span>
+				<span data-itemprop="zip">30263-2446</span>
+			</span>
+			<span class="comments" data-itemscope=""  data-itemprop="comments[]">
+				<span class="comment" data-itemscope=""  data-itemprop="comment">
+					<span class="text" data-itemprop="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+					<span class="date" data-itemprop="date">12/11/2013</span>
+				</span>
+				<span class="comment" data-itemscope=""  data-itemprop="comment">
+					<span class="text" data-itemprop="text">Suspendisse hendrerit risus sit amet arcu varius consectetur.</span>
+					<span class="date" data-itemprop="date">12/12/2013</span>
+				</span>	
+			</span>
 	</span>
-	<span class="user" data-itemscope="">
+	<span class="user" data-itemscope="" data-itemid="2">
 			<span class="first-name" data-itemprop="firstName">Frank</span>
 			<span class="last-name" data-itemprop="lastName">Hamilton</span>
 			<span class="user-name" data-itemprop="userName">frank.hamilton</span>
+			<span class="address" data-itemscope=""  data-itemprop="address">
+				<span data-itemprop="address1">49 Chickasaw Bluff Rd</span>
+				<span data-itemprop="city">Benton</span>
+				<span data-itemprop="state">KY</span>
+				<span data-itemprop="zip">42025-0000</span>
+			</span>
+			<span class="comments" data-itemscope=""  data-itemprop="comments[]">
+				<span class="comment" data-itemscope=""  data-itemprop="comment">
+					<span class="text" data-itemprop="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+					<span class="date" data-itemprop="date">12/11/2013</span>
+				</span>
+				<span class="comment" data-itemscope=""  data-itemprop="comment">
+					<span class="text" data-itemprop="text">Suspendisse hendrerit risus sit amet arcu varius consectetur.</span>
+					<span class="date" data-itemprop="date">12/12/2013</span>
+				</span>	
+			</span>
 	</span>
 </span>
 
