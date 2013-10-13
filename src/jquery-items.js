@@ -26,8 +26,8 @@
                                 var handleItemprops     =   function()
                                                             {
                                                                 var $this       =   $(this);
-                                                                var isItem      =   $this.itemscope();
-                                                                var isItemref   =   $this.attr(definition.itemref) !== undefined;
+                                                                var isItem      =   $this.isItem();
+                                                                var isItemref   =   $this.isItemref();
                                                                 var itemref     =   $this.attr(definition.itemref);
                                                                 var property    =   $this.attr(definition.itemprop);
                                                                 var isArray     =   definition.arrayPattern.test(property);
@@ -47,7 +47,7 @@
                                 return item;
                             };
 
-    var createItems      =  function(query)
+    var createItems     =   function(query)
                             {
                                 var items       =    [];
                                 var handleQuery =   function()
@@ -69,7 +69,7 @@
 
                                 return hasItems ? items[0] : {};  
                             };
-    $.fn.items          =     function(object)
+    $.fn.items          =   function(object)
                             {
                                 var query       = this;
                                 var items       = createItems(query);
@@ -85,7 +85,25 @@
                                 var value       = isInput ? query.val() : query.text();
 
                                 return value;
-                            };         
+                            };
+    $.fn.isItem         =   function()
+                            {
+                                var query   = this;
+
+                                return query.attr(definition.itemscope)!== undefined;
+                            };
+    $.fn.isItemref      =   function()
+                            {
+                                var query   = this;
+
+                                return query.attr(definition.itemref) !== undefined;
+                            };
+    $.fn.isItemprop     =   function()
+                            {
+                                var query   = this;
+
+                                return query.attr(definition.itemprop) !== undefined;
+                            };       
     $.fn.closestItem    =   function()
                             {
                                 var itemscopeSelector   = definition.getSelector(definition.itemscope);
@@ -95,7 +113,7 @@
 
                                 return item;
                             };
-    $.fn.nextItem      =    function()
+    $.fn.nextItem       =   function()
                             {
                                 var itemscopeSelector   = definition.getSelector(definition.itemscope);
 
@@ -104,7 +122,7 @@
                                 
                                 return item;
                             };
-    $.fn.prevItem      =    function()
+    $.fn.prevItem       =   function()
                             {
                                 var itemscopeSelector   = definition.getSelector(definition.itemscope);
 
@@ -113,8 +131,8 @@
                                 
                                 return item;
                             };
-    $.fn.findItem      =    function(id)
-                            {definition.itemid
+    $.fn.findItem       =   function(id)
+                            {
                                 var itemscopeSelector   =   definition.getSelector(definition.itemscope);
                                 var itemidSelector      =   definition.getSelector(definition.itemid);
                                 var selector            =   itemscopeSelector + itemidSelector;
@@ -124,17 +142,10 @@
                                                                 var itemid  =   $this.attr(definition.itemid);
                                                                 return id == itemid;
                                                             };
-                                console.log(this);
+
                                 var query   = this.find(selector).filter(byItemid);
-                                console.log(query);
                                 var item    = query.item();
                                 
                                 return item;
-                            };
-    $.fn.itemscope      =   function()
-                            {
-                                var query   = this;
-
-                                return query.attr(definition.itemscope)!== undefined;
                             };
 }($));

@@ -21,10 +21,22 @@ test( "item value", function()
 
    equal(value, expectedValue, 'items value');
 });
+test( "is item", function()
+{
+    var isItem          =   $('.user:first-child').find('.address').isItem();
+
+    ok(isItem, 'is item');
+});
+test( "is item prop", function()
+{
+    var isItemprop      =  $('.user:first-child').find('.first-name').isItemprop();
+
+    ok(isItemprop, 'is item prop');
+});
 test( "closest item", function()
 {
-    var expectedUser    =   getUsers()[0];
-    var user            =  $('.user:first-child').find('.first-name').closestItem();
+    var expectedUser    = getUsers()[0];
+    var user            = $('.user:first-child').find('.first-name').closestItem();
 
     deepEqual(user, expectedUser, 'closest item');
 });
