@@ -5,6 +5,7 @@
                                 itemscope   :   'data-itemscope',
                                 itemprop    :   'data-itemprop',
                                 itemref     :   'data-itemref',
+                                itemid      :   'data-itemid',
                                 delimiter   :   '-',
                                 arrayPattern:   /^[\w\W]*\[\]$/,
                                 getSelector :   function(definition) 
@@ -38,7 +39,7 @@
                                                                 property        =   property.replace(/\[\]+/g,'');
 
                                                                 item[property]  =   isArray ? $this.children(itemscopeSelector).items()	: 
-                                                                                    isItem ? $this.items() : value;
+                                                                                    isItem ? $this.item() : value;
                                                             };
 
                                 $itemprops.each(handleItemprops);
@@ -108,6 +109,24 @@
                                 var itemscopeSelector   = definition.getSelector(definition.itemscope);
 
                                 var query   = this.prev(itemscopeSelector);
+                                var item    = query.item();
+                                
+                                return item;
+                            };
+    $.fn.findItem      =    function(id)
+                            {definition.itemid
+                                var itemscopeSelector   =   definition.getSelector(definition.itemscope);
+                                var itemidSelector      =   definition.getSelector(definition.itemid);
+                                var selector            =   itemscopeSelector + itemidSelector;
+                                var byItemid            =   function()
+                                                            {
+                                                                var $this   =   $(this);
+                                                                var itemid  =   $this.attr(definition.itemid);
+                                                                return id == itemid;
+                                                            };
+                                console.log(this);
+                                var query   = this.find(selector).filter(byItemid);
+                                console.log(query);
                                 var item    = query.item();
                                 
                                 return item;
