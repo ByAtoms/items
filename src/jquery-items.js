@@ -24,17 +24,16 @@
                                 $itemprops              =   $itemprops.not($not);
                                 var handleItemprops     =   function()
                                                             {
-                                                                var $this      =    $(this);
-                                                                var isItem     =    $this.itemscope();
-                                                                var isItemref  =    $this.attr(definition.itemref) !== undefined;
-                                                                var itemref    =    $this.attr(definition.itemref);
-                                                                var property   =    $this.attr(definition.itemprop);
-                                                                var isArray    =    definition.arrayPattern.test(property);
+                                                                var $this       =   $(this);
+                                                                var isItem      =   $this.itemscope();
+                                                                var isItemref   =   $this.attr(definition.itemref) !== undefined;
+                                                                var itemref     =   $this.attr(definition.itemref);
+                                                                var property    =   $this.attr(definition.itemprop);
+                                                                var isArray     =   definition.arrayPattern.test(property);
 
-                                                                $this          =    isItemref ? $('#'+itemref): $this;
+                                                                $this           =   isItemref ? $('#'+itemref): $this;
 
-                                                                var isInput    =    $this.is(':input');
-                                                                var value      =    isInput ? $this.val() : $this.text();
+                                                                var value       =   $this.itemValue();
 
                                                                 property        =   property.replace(/\[\]+/g,'');
 
@@ -80,30 +79,43 @@
                             };
     $.fn.itemValue      =   function()
                             {
-                                var $this       =   $(this);
-                                var isInput     =   $this.is(':input');
-                                var value       =   isInput ? $this.val() : $this.text();
+                                var query       = this;
+                                var isInput     = query.is(':input');
+                                var value       = isInput ? query.val() : query.text();
+
+                                return value;
                             };         
     $.fn.closestItem    =   function()
                             {
                                 var itemscopeSelector   = definition.getSelector(definition.itemscope);
 
-                                var query       = this.closest(itemscopeSelector);
-                                var items       = createItems(query);
-                                var hasItems    = items.length > 0;
-                                return hasItems ? items[0] : {};
+                                var query   = this.closest(itemscopeSelector);
+                                var item    = query.item();
+
+                                return item;
                             };
     $.fn.nextItem      =    function()
                             {
-                                var query       = this.next(itemscopeSelector);
-                                var items       = createItems(query);
-                                var hasItems    = items.length > 0;
-                                return hasItems ? items[0] : {};
+                                var itemscopeSelector   = definition.getSelector(definition.itemscope);
+
+                                var query   = this.next(itemscopeSelector);
+                                var item    = query.item();
+                                
+                                return item;
+                            };
+    $.fn.prevItem      =    function()
+                            {
+                                var itemscopeSelector   = definition.getSelector(definition.itemscope);
+
+                                var query   = this.prev(itemscopeSelector);
+                                var item    = query.item();
+                                
+                                return item;
                             };
     $.fn.itemscope      =   function()
                             {
-                                var query      = this;
+                                var query   = this;
 
                                 return query.attr(definition.itemscope)!== undefined;
-                            ;
+                            };
 }($));

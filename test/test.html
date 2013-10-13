@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>QUnit Example</title>
+<link rel="stylesheet" href="qunit/qunit-1.12.0.css">
+</head>
+<body>
+<div id="qunit"></div>
+<div id="qunit-fixture">
+<span class="users">
+	<span class="user" data-itemscope="">
+			<span class="first-name" data-itemprop="firstName">John</span>
+			<span class="last-name" data-itemprop="lastName">Smith</span>
+			<span class="user-name" data-itemprop="userName">john.smith</span>
+	</span>
+	<span class="user" data-itemscope="">
+			<span class="first-name" data-itemprop="firstName">Frank</span>
+			<span class="last-name" data-itemprop="lastName">Hamilton</span>
+			<span class="user-name" data-itemprop="userName">frank.hamilton</span>
+	</span>
+</span>
+
+</div>
+<script src="qunit/qunit-1.12.0.js"></script>
+<script src="../lib/jquery-1.10.1.min.js"></script>
+<script src="../src/jquery-items.js"></script>
+<script src="unit/tests.js"></script>
+
+</body>
+</html>
