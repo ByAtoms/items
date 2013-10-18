@@ -13,17 +13,57 @@
                                                     return definition.replace(/^([\w\W]*)$/, '[$1]');
                                                 }
                             };
+    var getProperties   =   function(query)
+                            {
+                                var itempropSelector    =   definition.getSelector(definition.itemprop);
+                                var $itemprops          =   query.find(itempropSelector);
+                                var $children           =   $itemprops.find(itempropSelector);
+                                $itemprops              =   $itemprops.not($children);
 
+                                return $itemprops;
+                            };
+    var populateItem    =   function(element, item)
+                            {
+                                var $this               =   $(element);
+                                var itemscopeSelector   =   definition.getSelector(definition.itemscope);
+                                var $itemprops          =   getProperties($this);
+                                var handleItemprops     =   function($this)
+                                                            {
+                                                                var $this       =   $(this);
+                                                                var isItem      =   $this.isItem();
+                                                                var isItemref   =   $this.isItemref();
+                                                                var itemref     =   $this.attr(definition.itemref);
+                                                                var property    =   $this.attr(definition.itemprop);
+                                                                var isArray     =   definition.arrayPattern.test(property);
+
+                                                                $this           =   isItemref ? $('#'+itemref): $this;
+
+                                                                property        =   property.replace(/\[\]+/g,'');
+
+                                                                var value       =   item[property];
+
+                                                                isArray ? $this.children(itemscopeSelector).items(value) : 
+                                                                isItem  ? $this.item(value) : $this.itemValue(value);
+                                                            };
+
+                                $itemprops.each(handleItemprops);
+                            };
+    var populateItems    =   function(query, items)
+                            {
+                                for(var index in items)
+                                {
+                                    var item    = items[index];
+                                    var element = query[index];
+                                    populateItem(element, item);
+                                }
+                            };
     var createItem      =   function(element)
                             {
                                 var item                =   {};
                                 var $this               =   $(element);
-                                var itempropSelector    =   definition.getSelector(definition.itemprop);
                                 var itemscopeSelector   =   definition.getSelector(definition.itemscope);
-                                var $itemprops          =   $this.find(itempropSelector);
-                                var $not                =   $itemprops.find(itempropSelector);
-                                $itemprops              =   $itemprops.not($not);
-                                var handleItemprops     =   function()
+                                var $itemprops          =   getProperties($this);
+                                var handleItemprops     =   function($this)
                                                             {
                                                                 var $this       =   $(this);
                                                                 var isItem      =   $this.isItem();
@@ -38,7 +78,7 @@
 
                                                                 property        =   property.replace(/\[\]+/g,'');
 
-                                                                item[property]  =   isArray ? $this.children(itemscopeSelector).items()	: 
+                                                                item[property]  =   isArray ? $this.children(itemscopeSelector).items() : 
                                                                                     isItem ? $this.item() : value;
                                                             };
 
@@ -61,28 +101,58 @@
                                 return items;
                             };
 
-    $.fn.item           =   function(object)
+    $.fn.item           =   function(item)
                             {
-                                var query      = this;
-                                var items      = createItems(query);
-                                var hasItems   = items.length > 0;
+                                var query           =   this;
+                                var shouldPopulate  =   item !== undefined;
+                                var handlePopulate  =   function()
+                                                        {
+                                                            if(shouldPopulate)
+                                                            {
+                                                                populateItems(query, [item]);
+                                                            }
+                                                        };
+
+                                handlePopulate();
+                                
+                                var items           = createItems(query);
+                                var hasItems        = items.length > 0;
 
                                 return hasItems ? items[0] : {};  
                             };
-    $.fn.items          =   function(object)
+    $.fn.items          =   function(items)
                             {
-                                var query       = this;
+                                var query           =   this;
+                                var shouldPopulate  =   items !== undefined;
+                                var handlePopulate  =   function()
+                                                        {
+                                                            if(shouldPopulate)
+                                                            {
+                                                                populateItems(query, items);
+                                                            }
+                                                        };
+
+                                handlePopulate();
+
                                 var items       = createItems(query);
                                 var hasItems    = items.length > 0;
 
                                 return hasItems ? items : [];
            
                             };
-    $.fn.itemValue      =   function()
+    $.fn.itemValue      =   function(value)
                             {
-                                var query       = this;
-                                var isInput     = query.is(':input');
-                                var value       = isInput ? query.val() : query.text();
+
+                                var query           = this;
+                                var isInput         = query.is(':input');
+                                var shouldSet       = value !== undefined;
+                               
+                                if(shouldSet)
+                                {
+                                    isInput ? query.val(value) : query.text(value);
+                                }
+
+                                value               = isInput ? query.val() : query.text();
 
                                 return value;
                             };
