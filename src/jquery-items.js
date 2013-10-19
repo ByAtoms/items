@@ -6,6 +6,7 @@
                                 itemprop    :   'data-itemprop',
                                 itemref     :   'data-itemref',
                                 itemid      :   'data-itemid',
+                                itemtype    :   'data-itemtype',
                                 delimiter   :   '-',
                                 arrayPattern:   /^[\w\W]*\[\]$/,
                                 getSelector :   function(definition) 

@@ -10,10 +10,10 @@
 <div id="qunit-fixture">
 <span class="users">
 	<span class="user" data-itemscope="" data-itemid="1">
-			<span class="first-name" data-itemprop="firstName">John</span>
-			<span class="last-name" data-itemprop="lastName">Smith</span>
-			<span class="user-name" data-itemprop="userName">john.smith</span>
-			<span class="address" data-itemscope=""  data-itemprop="address">
+			<span class="first-name"	data-itemprop="firstName">John</span>
+			<span class="last-name" 	data-itemprop="lastName">Smith</span>
+			<span class="user-name" 	data-itemprop="userName">john.smith</span>
+			<span class="address" 		data-itemscope=""  data-itemprop="address">
 				<span data-itemprop="address1">28 Mary Ann St</span>
 				<span data-itemprop="city">Newnan</span>
 				<span data-itemprop="state">GA</span>
@@ -53,6 +53,31 @@
 	</span>
 </span>
 
+<span class="reviews">
+    <span data-itemscope class="review">
+        <span data-itemprop="name"></span> -by 
+        <span data-itemprop="author"></span>,
+        <span data-itemprop="datePublished"></span>
+        <span data-itemprop="reviewRating" data-itemscope>
+            <span data-itemprop="worstRating"></span>
+            <span data-itemprop="ratingValue"></span>/
+            <span data-itemprop="bestRating"></span>stars
+        </span>
+        <span data-itemprop="description"></span>
+    </span>
+
+    <span data-itemscope class="review">
+        <span data-itemprop="name"></span> -by 
+        <span data-itemprop="author"></span>,
+        <span data-itemprop="datePublished"></span>
+        <span data-itemprop="reviewRating" data-itemscope>
+            <span data-itemprop="worstRating"></span>
+            <span data-itemprop="ratingValue"></span>/
+            <span data-itemprop="bestRating"></span>stars
+        </span>
+        <span data-itemprop="description"></span>
+    </span>
+</span>
 </div>
 <script src="qunit/qunit-1.12.0.js"></script>
 <script src="../lib/jquery-1.10.1.min.js"></script>

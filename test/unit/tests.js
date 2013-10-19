@@ -57,10 +57,45 @@ test( "prev item", function()
 test( "find item", function()
 {
     var expectedUser    =   getUsers()[0];
-    var user            =  $('.users').findItem(1);
+    var user            =   $('.users').findItem(1);
 
     deepEqual(user, expectedUser, 'find item');
 });
+test( "set item value", function()
+{
+    var expectedUser    =   getUsers()[0];
+    var expectedValue   =   "BOB";
+    var $firstName      =   $('.user:first-child').find('.first-name');
+    
+    $firstName .itemValue(expectedValue);
+
+    var value           =   $firstName .itemValue();
+
+   equal(value, expectedValue, 'set items value');
+});
+test( "set item", function()
+{
+    var expectedReview  =   getReviews()[0];
+    var $review         =   $('.review:first-child');
+   
+    $review.item(expectedReview);
+
+    var review   =   $review.item();
+
+    deepEqual(review, expectedReview, 'set item');
+});
+test( "set items", function()
+{
+    var expectedReviews  =   getReviews();
+    var $reviews         =   $('.review');
+   
+    $reviews.items(expectedReviews);
+
+    var reviews   =   $reviews.items();
+
+    deepEqual(reviews, expectedReviews, 'set items');
+});
+
 
 var getUsers    =   function()
                     {
@@ -109,4 +144,32 @@ var getUsers    =   function()
                                                         }
                                                     ];
                         return users;
+                    };
+var getReviews  =   function()
+                    {
+                        var reviews     =   [
+                                                {
+                                                    name            :   "Not a happy camper",
+                                                    author          :   "Ellie",
+                                                    datePublished   :   "April 1, 2011",
+                                                    reviewRating    :   {
+                                                                            worstRating :   "1",
+                                                                            ratingValue :   "1",
+                                                                            bestRating  :   "5"
+                                                                        },
+                                                    description     :   "The lamp burned out and now I have to replace it. "
+                                                },
+                                                {   
+                                                    name            :   "Value purchase",
+                                                    author          :   "Lucas",
+                                                    datePublished   :   "March 25, 2011",
+                                                    reviewRating    :   {
+                                                                            worstRating :   "1",
+                                                                            ratingValue :   "4",
+                                                                            bestRating  :   "5"
+                                                                        },
+                                                    description     :   "Great microwave for the price. It is small andfits in my apartment."
+                                                }
+                                            ];
+                        return reviews; 
                     };
