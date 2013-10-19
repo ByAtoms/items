@@ -219,4 +219,33 @@
                                 
                                 return item;
                             };
+    $.fn.repeatItem     =   function(item)
+                            {
+                                var query   = this.first();  
+                                var $clone  = query.clone();
+
+                                $clone.insertAfter(query);
+
+                                return $clone.item(item);
+                            };
+    $.fn.repeatItems    =   function(items)
+                            {
+                                var query           =   this.last(); 
+                                var $clones         =   $();
+                                var handleClones    =   function()
+                                                        {
+                                                            for (var index in items) 
+                                                            {
+                                                                var $clone  =   query.clone();
+                                                                $clones     =   $clones.add($clone); 
+                                                            };
+                                                           
+                                                        };
+
+                                handleClones();
+
+                                $clones.insertAfter(query);
+
+                                return $clones.items(items);
+                            };
 }($));

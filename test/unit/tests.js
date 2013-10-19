@@ -95,6 +95,42 @@ test( "set items", function()
 
     deepEqual(reviews, expectedReviews, 'set items');
 });
+test( "set item", function()
+{
+    var expectedReview  =   getReviews()[0];
+    var $review         =   $('.review:first-child');
+   
+    $review.item(expectedReview);
+
+    var review   =   $review.item();
+
+    deepEqual(review, expectedReview, 'set item');
+});
+
+test( "repeat item", function()
+{
+    var expectedReview  =   getReviews()[0];
+    var $template       =   $('.review:last-child');
+   
+    $template.repeatItem(expectedReview);
+   
+
+    var review          =   $template.next().item();
+
+    deepEqual(review, expectedReview, 'repeat item');
+});
+
+test( "repeat items", function()
+{
+    var expectedReviews  =   getReviews();
+    var $template        =   $('.review:last-child');
+   
+    $template.repeatItems(expectedReviews);
+   
+    var reviews            =   $template.nextAll().items();
+
+    deepEqual(reviews, expectedReviews, 'repeat items');
+});
 
 
 var getUsers    =   function()
