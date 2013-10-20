@@ -127,7 +127,7 @@ test( "repeat items", function()
    
     $template.repeatItems(expectedReviews);
    
-    var reviews            =   $template.nextAll().items();
+    var reviews          =   $template.nextAll().items();
 
     deepEqual(reviews, expectedReviews, 'repeat items');
 });

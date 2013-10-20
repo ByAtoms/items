@@ -14,6 +14,116 @@
                                                     return definition.replace(/^([\w\W]*)$/, '[$1]');
                                                 }
                             };
+    var handlers        =   [
+                                {
+                                    condition   :   function(element)
+                                                    {   
+                                                        var $element    =   $(element);
+                                                        var definition  =   $.item();
+                                                        var property    =   $element.attr(definition.itemprop);
+                                                        var isArray     =   definition.arrayPattern.test(property);
+                                                        return isArray;
+                                                    },
+                                    setValue    :   function(element, value)
+                                                    {
+                                                        var $element            =   $(element);
+                                                        var definition          =   $.item();
+                                                        var itemscopeSelector   =   definition.getSelector(definition.itemscope);
+
+                                                        $element.children(itemscopeSelector).items(value)
+                                                    },
+                                    getValue    :   function(element)
+                                                    {
+                                                        var $element            =   $(element);
+                                                        var definition          =   $.item();
+                                                        var itemscopeSelector   =   definition.getSelector(definition.itemscope);
+                                                        var value               =   $element.children(itemscopeSelector).items();
+                                                        return value;
+                                                    }
+                                },
+                                {
+                                    condition   :   function(element)
+                                                    { 
+                                                        var $element    =   $(element);
+                                                        var isItem      =   $element.isItem();
+                                                        return isItem;
+                                                    },
+                                    setValue    :   function(element, value)
+                                                    {
+                                                        var $element    =   $(element);
+                                                        $element .item(value) 
+                                                    },
+                                    getValue    :   function(element)
+                                                    {
+                                                        var $element    =   $(element);
+                                                        var value       =   $element.item();
+                                                        return value;
+                                                    }
+                                },
+                                {
+                                    condition   :   function(element)
+                                                    { 
+                                                        var $element    =   $(element);
+                                                        var isItemprop  =   $element.isItemprop();
+                                                        return isItemprop;
+                                                    },
+                                    setValue    :   function(element, value)
+                                                    {
+                                                        var $element    =   $(element);
+                                                        $element.itemValue(value);
+                                                    },
+                                    getValue    :   function(element)
+                                                    {
+                                                        var $element    =   $(element);
+                                                        var value       =   $element.itemValue();
+                                                        return value;                                                        
+                                                    }
+                                },
+
+                            ];
+    var factory         =   {
+
+                                getHandler  :   function(element)
+                                                {
+                                                    var valueHandler    =   {}
+                                                    var getValueHandler =   function()
+                                                                            {  
+                                                                                for (var index in handlers) 
+                                                                                {
+
+                                                                                    var handler     =   handlers[index];
+                                                                                    var condition   =   handler.condition(element);
+
+                                                                                    if(condition)
+                                                                                    {
+                                                                                        valueHandler    =   handler;
+                                                                                        break;
+                                                                                    }
+                                                                                };
+
+                                                                            };
+
+                                                    getValueHandler();
+
+                                                    return valueHandler;
+
+                                                } 
+                            };
+    var extend          =   {
+                                item        :   function(options)
+                                                {
+                                                    $.extend(definition, options)
+
+                                                    return definition;  
+                                                },
+                                handleItem  :   function(valueHandlers)
+                                                {
+                                                    valueHandlers   =   valueHandlers || [];
+                                                    $.merge( handlers, valueHandlers );
+
+                                                    return handlers;  
+                                                }
+                        };
     var getProperties   =   function(query)
                             {
                                 var itempropSelector    =   definition.getSelector(definition.itemprop);
@@ -28,23 +138,22 @@
                                 var $this               =   $(element);
                                 var itemscopeSelector   =   definition.getSelector(definition.itemscope);
                                 var $itemprops          =   getProperties($this);
-                                var handleItemprops     =   function($this)
+                                var handleItemprops     =   function()
                                                             {
                                                                 var $this       =   $(this);
-                                                                var isItem      =   $this.isItem();
                                                                 var isItemref   =   $this.isItemref();
                                                                 var itemref     =   $this.attr(definition.itemref);
                                                                 var property    =   $this.attr(definition.itemprop);
-                                                                var isArray     =   definition.arrayPattern.test(property);
-
-                                                                $this           =   isItemref ? $('#'+itemref): $this;
 
                                                                 property        =   property.replace(/\[\]+/g,'');
+                                                                $this           =   isItemref ? $('#'+itemref): $this;
 
+                                                                var element     =   $this[0];
                                                                 var value       =   item[property];
+                                                                var handler     =   factory.getHandler(element);
 
-                                                                isArray ? $this.children(itemscopeSelector).items(value) : 
-                                                                isItem  ? $this.item(value) : $this.itemValue(value);
+
+                                                                handler.setValue(element,value);
                                                             };
 
                                 $itemprops.each(handleItemprops);
@@ -62,25 +171,22 @@
                             {
                                 var item                =   {};
                                 var $this               =   $(element);
-                                var itemscopeSelector   =   definition.getSelector(definition.itemscope);
                                 var $itemprops          =   getProperties($this);
-                                var handleItemprops     =   function($this)
+                                var handleItemprops     =   function()
                                                             {
                                                                 var $this       =   $(this);
-                                                                var isItem      =   $this.isItem();
                                                                 var isItemref   =   $this.isItemref();
                                                                 var itemref     =   $this.attr(definition.itemref);
                                                                 var property    =   $this.attr(definition.itemprop);
-                                                                var isArray     =   definition.arrayPattern.test(property);
-
-                                                                $this           =   isItemref ? $('#'+itemref): $this;
-
-                                                                var value       =   $this.itemValue();
 
                                                                 property        =   property.replace(/\[\]+/g,'');
+                                                                $this           =   isItemref ? $('#'+itemref): $this;
+                                                                
+                                                                var element     =   $this[0];
+                                                                var handler     =   factory.getHandler(element);
+                                                                var value       =   handler.getValue(element);
 
-                                                                item[property]  =   isArray ? $this.children(itemscopeSelector).items() : 
-                                                                                    isItem ? $this.item() : value;
+                                                                item[property]  =   value;
                                                             };
 
                                 $itemprops.each(handleItemprops);
@@ -248,4 +354,5 @@
 
                                 return $clones.items(items);
                             };
+    $.extend(extend);
 }($));
